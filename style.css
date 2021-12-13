@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
+
+:root{
+    --shark: #1d2022;
+    --scorpion: #5c5c5c;
+    --mid-gray: #64646c;
+    --gunsmoke: #7f8080;
+    --rolling-stone: #727477;
+    --manatee: #94949c;
+    --aluminium: #a4a5a7;
+    --text-color: #e9e9e9;
+    --sea-buckthorn: #f9a321;
+    --copper: #b47c3c;
+}
+
+*{
+    /* outline: 1px solid red; */
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    background-color: var(--rolling-stone);
+}
+
+h1{
+    color: var(--shark)
+}
+
+.container{
+    padding: 8px;
+    border-radius: 10px;
+    background-color: var(--shark);
+    width: 366px;
+}
+
+p {
+    margin: 0;
+    font-size: 24px;
+    text-align: end;
+    height: 30px;
+    width: 100%;
+    color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 100;
+}
+
+p#currentValue{
+    font-size: 50px;
+    height: 60px;
+}
+
+.keypad{
+    display: grid;
+    width: 350px;
+    height: 350px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 1px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+}
+
+kbd{
+    flex-grow: 1;
+    text-align: center;
+    font-size: 24px;
+}
+
+#clear, 
+#zero{
+    grid-column: span 2;
+}
+
+.operator,
+#equal{
+    background-color: var(--sea-buckthorn);
+}
+
+#clear,
+#del{
+    background-color: var(--mid-gray);
+}
+
+.number,
+#point{
+    background-color: var(--gunsmoke);
+}
+
+button{
+    border: none;
+    color: var(--text-color)
+}
+
+button:active,
+#point:active{
+    background-color: var(--aluminium);
+}
+
+#clear:active,
+#del:active{
+    background-color: var(--gunsmoke);
+}
+
+button:focus{
+    outline: 0;
+}
+
+.operator:active,
+#equal:active{
+    background-color: var(--copper);
+}
+
