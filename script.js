@@ -8,7 +8,7 @@ const equalKey = document.getElementById('equal').childNodes[0].textContent;
 const decimalPoint = document.getElementById('point').childNodes[0].textContent;
 
 const enterKey = 'Enter';
-const backspaceKey = 'Backspace'; 
+const backspaceKey = 'Backspace';
 const escapeKey = 'Escape';
 
 const buttons = document.querySelectorAll('.keypad > button');
@@ -27,7 +27,6 @@ buttons.forEach(button => {
 });
 
 window.addEventListener('keydown', (event) => {
-    console.log(event.key);
     changeResultValue(event.key);
 })
 
@@ -37,15 +36,13 @@ function changeResultValue(value) {
             topValue += displayValue + ' =';
             displayValue = '';
             let expression = ('' + topValue).trim().split(" ");
-            console.log(expression)
             if (expression.length > 2) {
                 displayValue = operate(+expression[0], +expression[2], expression[1]);
             }
         }
     } else if (value === delKey || value === backspaceKey) {
-        if (isInt(displayValue) || isFloat(displayValue)) {
-            displayValue = "0";
-            topValue = "";
+        if (isInt(displayValue) || isFloat(displayValue) || (topValue === "" && +displayValue < 9)) {
+            clearDisplay();
         } else {
             if (displayValue === "") {
                 displayValue = topValue.split(" ").join("");
@@ -54,16 +51,12 @@ function changeResultValue(value) {
             displayValue = displayValue.slice(0, -1);
         }
     } else if (value === clearKey || value === escapeKey) {
-        displayValue = "0";
-        topValue = "";
+        clearDisplay();
     } else if (isOperator(value)) {
         if (displayValue !== "") {
             topValue = displayValue + ' ' + value + ' ';
             displayValue = '';
         }
-    } else if (isNumberInAString(value) && (isInt(displayValue) || isFloat(displayValue))) {
-        displayValue = value;
-        topValue = "";
     } else if (value === decimalPoint) {
         if (!displayValue.includes(decimalPoint))
             displayValue += value;
@@ -78,6 +71,11 @@ function changeResultValue(value) {
             displayValue += value;
     }
     displayContent();
+}
+
+function clearDisplay() {
+    displayValue = "0";
+    topValue = "";
 }
 
 function isNumberInAString(value) {
