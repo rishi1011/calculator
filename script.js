@@ -1,11 +1,11 @@
-const divideOperator = document.getElementById('divide').childNodes[0].textContent;
-const multiplyOperator = document.getElementById('multiply').childNodes[0].textContent;
-const subtractOperator = document.getElementById('subtract').childNodes[0].textContent;
-const addOperator = document.getElementById('add').childNodes[0].textContent;
-const clearKey = document.getElementById('clear').childNodes[0].textContent;
-const delKey = document.getElementById('del').childNodes[0].textContent;
-const equalKey = document.getElementById('equal').childNodes[0].textContent;
-const decimalPoint = document.getElementById('point').childNodes[0].textContent;
+const divideOperator = document.getElementById('divide').textContent;
+const multiplyOperator = document.getElementById('multiply').textContent;
+const subtractOperator = document.getElementById('subtract').textContent;
+const addOperator = document.getElementById('add').textContent;
+const clearKey = document.getElementById('clear').textContent;
+const delKey = document.getElementById('del').textContent;
+const equalKey = document.getElementById('equal').textContent;
+const decimalPoint = document.getElementById('point').textContent;
 
 const enterKey = 'Enter';
 const backspaceKey = 'Backspace';
@@ -21,6 +21,7 @@ let topValue = "";
 buttons.forEach(button => {
     // console.log(button);
     button.addEventListener('click', (event) => {
+        console.log(event)
         let value = event.target.textContent;
         changeResultValue(value);
     })
@@ -42,7 +43,7 @@ function changeResultValue(value) {
             }
         }
     } else if (value === delKey || value === backspaceKey) {
-        if (isInt(displayValue) || isFloat(displayValue) || (topValue === "" && +displayValue < 9)) {
+        if (isInt(displayValue) || isFloat(displayValue) || (topValue === "" && +displayValue <= 9)) {
             clearDisplay();
         } else {
             if (displayValue === "") {
