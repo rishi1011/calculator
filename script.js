@@ -28,6 +28,7 @@ buttons.forEach(button => {
 
 window.addEventListener('keydown', (event) => {
     changeResultValue(event.key);
+    event.preventDefault();
 })
 
 function changeResultValue(value) {
