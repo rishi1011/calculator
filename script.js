@@ -32,7 +32,7 @@ window.addEventListener('keydown', (event) => {
 
 function changeResultValue(value) {
     if (value === equalKey || value === enterKey) {
-        if (!isInt(displayValue) || isFloat(!displayValue)) {
+        if (!isInt(displayValue) && !isFloat(displayValue) && includesOperator(topValue + displayValue)) {
             topValue += displayValue + ' =';
             displayValue = '';
             let expression = ('' + topValue).trim().split(" ");
@@ -53,7 +53,15 @@ function changeResultValue(value) {
     } else if (value === clearKey || value === escapeKey) {
         clearDisplay();
     } else if (isOperator(value)) {
-        if (displayValue !== "") {
+        if (topValue !== '') {
+            topValue += displayValue;
+            let expression = ('' + topValue).trim().split(" ");
+            if (expression.length > 2) {
+                topValue = operate(+expression[0], +expression[2], expression[1]);
+            }
+            displayValue = '';
+            topValue += ' ' + value + ' ';
+        } else if (displayValue !== '') {
             topValue = displayValue + ' ' + value + ' ';
             displayValue = '';
         }
@@ -71,6 +79,20 @@ function changeResultValue(value) {
             displayValue += value;
     }
     displayContent();
+}
+
+// function computeResult() {
+    
+// }
+
+function includesOperator(string) {
+    const arr = string.split(" ");
+    for (let i = 0; i < arr.length; i++){
+        if (isOperator(arr[i])) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function clearDisplay() {
