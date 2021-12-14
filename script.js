@@ -5,6 +5,11 @@ const addOperator = document.getElementById('add').childNodes[0].textContent;
 const clearKey = document.getElementById('clear').childNodes[0].textContent;
 const delKey = document.getElementById('del').childNodes[0].textContent;
 const equalKey = document.getElementById('equal').childNodes[0].textContent;
+const decimalPoint = document.getElementById('point').childNodes[0].textContent;
+
+const enterKey = 'Enter';
+const backspaceKey = 'Backspace'; 
+const escapeKey = 'Escape';
 
 const buttons = document.querySelectorAll('.keypad > button');
 const currentValue = document.getElementById("currentValue");
@@ -15,33 +20,40 @@ let topValue = "";
 
 buttons.forEach(button => {
     // console.log(button);
-    button.addEventListener('click', changeResultValue)
+    button.addEventListener('click', (event) => {
+        let value = event.target.textContent;
+        changeResultValue(value);
+    })
 });
 
-function changeResultValue(event) {
-    let value = event.target.textContent;
-    if (value === equalKey) {
-        console.log()
-        topValue += displayValue + ' =';
-        displayValue = '';
-        let expression = ('' + topValue).trim().split(" ");
-        console.log(expression)
-        if (expression.length > 2) {
-            displayValue = operate(+expression[0], +expression[2], expression[1]);
+window.addEventListener('keydown', (event) => {
+    console.log(event.key);
+    changeResultValue(event.key);
+})
+
+function changeResultValue(value) {
+    if (value === equalKey || value === enterKey) {
+        if (!isInt(displayValue) || isFloat(!displayValue)) {
+            topValue += displayValue + ' =';
+            displayValue = '';
+            let expression = ('' + topValue).trim().split(" ");
+            console.log(expression)
+            if (expression.length > 2) {
+                displayValue = operate(+expression[0], +expression[2], expression[1]);
+            }
         }
-    } else if (value === delKey) {
+    } else if (value === delKey || value === backspaceKey) {
         if (isInt(displayValue) || isFloat(displayValue)) {
             displayValue = "0";
             topValue = "";
         } else {
             if (displayValue === "") {
                 displayValue = topValue.split(" ").join("");
-                console.log(displayValue);
                 topValue = "";
             }
             displayValue = displayValue.slice(0, -1);
         }
-    } else if (value === clearKey) {
+    } else if (value === clearKey || value === escapeKey) {
         displayValue = "0";
         topValue = "";
     } else if (isOperator(value)) {
@@ -49,13 +61,30 @@ function changeResultValue(event) {
             topValue = displayValue + ' ' + value + ' ';
             displayValue = '';
         }
-    } else if (displayValue === "0" || isInt(displayValue) || isFloat(displayValue)) {
+    } else if (isNumberInAString(value) && (isInt(displayValue) || isFloat(displayValue))) {
         displayValue = value;
         topValue = "";
-    } else {
-        displayValue += value;
+    } else if (value === decimalPoint) {
+        if (!displayValue.includes(decimalPoint))
+            displayValue += value;
+    } else if (isNumberInAString(value)) {
+        if (displayValue === "0")
+            displayValue = value;
+        else if (isInt(displayValue) || isFloat(displayValue)) {
+            displayValue = value;
+            topValue = "";
+        }
+        else
+            displayValue += value;
     }
     displayContent();
+}
+
+function isNumberInAString(value) {
+    if (typeof value === 'string' && +value >= 0 && +value <= 9) {
+        return true;
+    }
+    return false;
 }
 
 function displayContent() {
