@@ -1,0 +1,1 @@
+An intuitive Calculator application, created with Html, CSS, and vanilla Javascript. The application contains keyboard support and all the basic operations a calculator requires.
